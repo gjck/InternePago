@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<html>
+
+		<head>
+				<meta charset="utf-8" />
+				<title> Gabrice Editions : Acceuil </title>
+				<link rel="stylesheet" href="../css/style.css" />
+		</head>
+
+
+		<body>
+				<header>
+					<div id="logo_header">
+						<img src="../img/logo/logo_gabrice.jpg" />	
+					</div>
+				</header>
+
+				<nav>
+					{include file='../html/nav.html'}	
+				</nav>
+
+				<h1 id="titre_accueil_centre"> Que voulez vous faire ?  </h1>
+
+				<section id="bloc_middle">
+				<h2> Rédaction d'un rapport <h2>
+					<!--<div id="rapport">
+					<a href="journalier_p1.php"><img src="../img/icones/rapport.png" /></a>		
+					</div>-->
+					{if $booleen==1}
+						{if $admin==2}
+							<div id="rapport">
+							<a href="affichage_resultats.php"><img src="../img/icones/resultats.jpg" /></a>		
+							</div>
+						{else}
+							<div id="rapport">
+							<a href="resultats.php"><img src="../img/icones/resultats.jpg" /></a>		
+							</div>
+						{/if}	
+					{else}
+					<div id="rapport">
+					<a href="journalier_p1.php"><img src="../img/icones/rapport.png" /></a>		
+					</div>
+					{/if}
+					
+				<!--	<div id="rapport">
+					<a href=""><img src="img/icones/rapport.png" /></a>		
+					</div> -->
+					
+				</section>
+				
+				{if $admin==0}
+				<section id="bloc_middle">
+				<br>
+				RESULTATS DES TESTS <br>
+				ID_USER : {$id_user}
+				</section>
+				{/if}
+		</body>
+
+</html>
+

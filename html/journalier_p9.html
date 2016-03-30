@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+<html>
+
+		<head>
+				<meta charset="utf-8" />
+				<title> Gabrice Editions : Etape 3 </title>
+				<link rel="stylesheet" href="../css/style.css" />
+		</head>
+
+
+		<body>
+				<header>
+					<div id="logo_header">
+						<img src="../img/logo/logo_gabrice.jpg" />	
+					</div>
+				</header>
+
+				<nav>
+					{include file='../html/nav.html'}		
+				</nav>
+
+				<h1 id="titre_accueil_centre"> Etape 5 : Remarques éventuelles </h1>
+
+				<section id="bloc_middle">
+				
+					<form method="post" action="journalier_p10.php">
+						<p id="etp1"> Merci de donner vos remarques éventuelles</p>
+							<p>
+									<textarea name="rqs" rows="5" cols="90"> Indiquez vos remarques ici. </textarea>
+							</p>
+						<div>
+							<input type="submit" value="Envoyer le rapport" id="validation_bouton"/>
+						</div>
+					</form>
+					
+				</section>
+		</body>
+
+</html>
+

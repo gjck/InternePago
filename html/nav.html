@@ -1,0 +1,35 @@
+<float id="menu">
+<a href="accueil.php"> Accueil </a>
+</float>
+
+<!--					
+<float id="menu">
+<a href=""> Mon Compte </a>
+</float>
+					
+<float id="menu">
+<a href=""> Contacts </a>
+</float>
+-->
+					
+<float id="menu">
+<a href="deconnexion.php"> Déconnexion </a>
+</float>
+					
+{if isset($admin) && $admin==0}
+<float id="menu">
+<a href="administration.php"> Administration </a>
+</float>
+{/if}
+					
+{if isset($admin) && $admin<2}
+<float id="menu">
+<a href="resultats.php"> Résultats </a>
+</float>
+{/if}
+
+{if isset($admin) && ($admin==2 || $admin==0)}
+<float id="menu">
+<a href="affichage_resultats.php"> Calendrier </a>
+</float>
+{/if}	

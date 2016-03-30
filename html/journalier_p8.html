@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+
+<html>
+
+		<head>
+				<meta charset="utf-8" />
+				<title> Gabrice Editions : Etape 2 </title>
+				<link rel="stylesheet" href="../css/style.css" />
+
+				<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  				<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  				<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+  				{if $nb_pub==0 || $nb_pub<0}
+					{if $nb_pub<0}
+					{$max=0}
+					{/if}
+				{else}
+					{if $nb_pub<50}
+					{$max=$nb_pub}
+					{else}
+					{$max=50}
+					{/if}
+				{/if}
+
+				{if $nb_rdv==0 || $nb_rdv<0}
+				{if $nb_rdv<0}
+					{$max_rdv=0}
+				{/if}
+				{else}
+					{if $nb_rdv<50}
+					{$max_rdv=$nb_rdv}
+					{else}
+					{$max_rdv=50}
+					{/if}
+				{/if}
+
+  				{literal}
+  				<script>
+  					$(function()
+  					{
+    					var availableTags =
+    						[
+    							{/literal}
+    							{foreach from=$listeNomPublicite item=listeNom}
+      						 		"{$listeNom.nom}",
+      							{/foreach}
+      							{literal}
+    						];
+
+    						var maxIte1={/literal}{$max}{literal};
+    						var maxIte2={/literal}{$max_rdv}{literal};
+
+    						for(var iter1=1; iter1<=maxIte1; iter1++)
+    						{
+    							$( "#tags"+iter1 ).autocomplete
+    							({
+      								source: availableTags
+    							});
+    						}
+
+    						for(var iter2=1; iter2<=maxIte2; iter2++)
+    						{
+    							$( "#tags2"+iter2 ).autocomplete
+    							({
+      								source: availableTags
+    							});
+    						}
+  					});
+  				</script>
+  				{/literal}
+		</head>
+
+
+		<body>
+				<header>
+					<div id="logo_header">
+						<img src="../img/logo/logo_gabrice.jpg" />
+					</div>
+				</header>
+
+				<nav>
+					{include file='../html/nav.html'}
+				</nav>
+
+				<h1 id="titre_accueil_centre"> Etape 4 : Publicité </h1>
+
+				<section id="bloc_middle">
+					<form method="post" action="journalier_p9.php">
+						<h2> Rendez-vous reprogrammés </h2>
+						<p> Merci d'indiquer la date à laquelle vous avez prévu de revoir ces organismes publicitaires </p>
+						<table id="table1">
+							<tr>
+								<th> Nom organisme publicitaire </th>
+								<th> Date pour reprogrammation </th>
+							</tr>
+						{$i=0}
+						{foreach from=$publiciteReprogrammes item=pub}
+							<tr>
+								<td> {$ce.nom} </td>
+								<td>  <select name="jour2[{$pub.id}]"> {for $cpt=1 to 31} <option value="{$cpt}"> {$cpt} </option> {/for} </select>
+									  <select name="mois2[{$pub.id}]"> {for $cpt=1 to 12} <option value="{$cpt}"> {$cpt} </option> {/for} </select>
+									  <select name="annee2[{$pub.id}]"> {for $cpt=2016 to 2060} <option value="{$cpt}"> {$cpt} </option> {/for} </select>
+								</td>
+				 				<input type="hidden" name="RP[{$i++}]" value="{$pub.id}"/>
+				 			</tr>
+						{/foreach}
+						<input type="hidden" name="maxReprog" value="{$i}" />
+						</table>
+
+						<h2> Nouveau rendez vous aujourd'hui </h2>
+						<p> Merci d'indiquer les organismes publicitaires que vous avez vu aujourd'hui sans les avoir déclarés plus tôt </p>
+						{if $nb_pub==0 || $nb_pub<0}
+						{if $nb_pub<0} {$max=0} {/if}
+						<p> Vous n'avez pas rencontré d'organismes publicitaires supplémentaires aujourd'hui, vous pouvez passer à l'étape suivante </p>
+						{else}
+						{if $nb_pub<50}
+						{$max=$nb_pub}
+						{else}
+						{$max=50}
+						{/if}
+						<table id="table1">
+							<tr>
+								<th> Nom organisme publicitaire </th>
+								<th> Signé </th>
+								<th> En attente de réponse </th>
+								<th> Refus </th>
+							</tr>
+							{for $cpt=1 to $max}
+							<tr>
+								<td> <input type="text" name="nom_pub[{$cpt}]" size="40" id="tags{$cpt}"/> </td>
+				 				<td> <input type="radio" name="choix[{$cpt}]" value="signe" id="signe" checked/></td>
+								<td> <input type="radio" name="choix[{$cpt}]" value="attenteReponse" id="attenteReponse"/></td>
+				 				<td> <input type="radio" name="choix[{$cpt}]" value="refus" id="refus"/></td>
+				 			</tr>
+				 			{/for}
+						</table>
+						{/if}
+						<input type="hidden" name="maxRdvToday" value="{$max}" />
+
+						<h2> Nouveau rendez vous prévus </h2>
+						<p> Merci d'indiquer les rendez-vous prévus dans la semaine </p>
+						{if $nb_rdv==0 || $nb_rdv<0}
+						{if $nb_rdv<0} {$max_rdv=0} {/if}
+						<p> Vous n'avez pas de rendez-vous prévus dans la semaine </p>
+						{else}
+						{if $nb_rdv<50}
+						{$max_rdv=$nb_rdv}
+						{else}
+						{$max_rdv=50}
+						{/if}
+						<table id="table1">
+							<tr>
+								<th> Nom organisme publicitaire </th>
+								<th> Date du rendez-vous </th>
+							</tr>
+							{for $cpt2=1 to $max_rdv}
+							<tr>
+								<td> <input type="text" name="nom_rdv_pub[{$cpt2}]" size="40" id="tags2{$cpt2}"/>  </td>
+				 				<td> <select name="jour4[{$cpt2}]"> {for $cpt=1 to 31} <option value="{$cpt}"> {$cpt} </option> {/for} </select>
+									 <select name="mois4[{$cpt2}]"> {for $cpt=1 to 12} <option value="{$cpt}"> {$cpt} </option> {/for} </select>
+									 <select name="annee4[{$cpt2}]"> {for $cpt=2016 to 2060} <option value="{$cpt}"> {$cpt} </option> {/for} </select>	</td>
+				 			</tr>
+				 			{/for}
+						</table>
+						{/if}
+						<input type="hidden" name="maxRdv" value="{$max_rdv}" />
+
+						<p>
+						<div>
+						<input type="submit" value="Passer à l'étape suivante" id="validation_bouton"/>
+						</div>
+						</p>
+
+					</form>
+				</section>
+		</body>
+
+</html>

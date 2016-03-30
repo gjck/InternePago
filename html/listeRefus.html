@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html>
+
+		<head>
+				<meta charset="utf-8" />
+				<title> Gabrice Editions : Resultats </title>
+				<link rel="stylesheet" href="../css/style.css" />
+		</head>
+
+
+		<body>
+				<header>
+					<div id="logo_header">
+						<img src="../img/logo/logo_gabrice.jpg" />	
+					</div>
+				</header>
+
+				<nav>
+					{include file='../html/nav.html'}		
+				</nav>
+
+				<h1 id="titre_accueil_centre"> Liste détaillée des refus </h1>
+				
+				<section id="bloc_middle">
+				<ul>
+				{foreach from=$listeRefus item=refus}
+					<li>{$refus.nom}</li>
+				{/foreach}
+				</ul>
+				<br><a href="javascript:history.back()">Retourner à la page précédente</a>
+				</section>
+		</body>
+
+</html>

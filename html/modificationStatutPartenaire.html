@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html>
+
+		<head>
+				<meta charset="utf-8" />
+				<title> Gabrice Editions : Resultats </title>
+				<link rel="stylesheet" href="../css/style.css" />
+		</head>
+
+
+		<body>
+				<header>
+					<div id="logo_header">
+						<img src="../img/logo/logo_gabrice.jpg" />	
+					</div>
+				</header>
+
+				<nav>
+					{include file='../html/nav.html'}		
+				</nav>
+
+				<h1 id="titre_accueil_centre"> Modification effectuée </h1>
+				
+				<section id="bloc_middle">
+				<p> La modification a été effectuée </p>
+						{if $admin==2}
+							<div id="rapport">
+							<p><a href="affichage_resultats.php">Retourner aux resultats</a></p>		
+							</div>
+						{else}
+							<div id="rapport">
+							<p><a href="resultats.php">Retourner aux resultats</a></p>		
+							</div>
+						{/if}
+				</section>
+		</body>
+
+</html>

@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+
+<html>
+
+		<head>
+				<meta charset="utf-8" />
+				<title> Gabrice Editions : Resultats </title>
+				<link rel="stylesheet" href="../css/style.css" />
+		</head>
+
+
+		<body>
+				<header>
+					<div id="logo_header">
+						<img src="../img/logo/logo_gabrice.jpg" />
+					</div>
+				</header>
+
+				<nav>
+					{include file='../html/nav.html'}
+				</nav>
+
+				<h1 id="titre_accueil_centre"> Resultats </h1>
+
+			<section id="Restaurant">
+				<section id="resultatBlocGauche">
+				<h2> Partenaires </h2>
+
+				<p> Affichage des rendez-vous des prochains jours </p>
+
+					<table id="affCalendrierResultat">
+					<tr>
+						<th id="dateResultat"> Date du rendez-vous </th>
+						<th> Rendez-vous de la journée </th>
+						<th> Reprogrammé </th>
+						<th> Non rencontré </th>
+						<th> En attente de réponse </th>
+					</tr>
+
+					<tr>
+					<!-- La suite de foreach permet de sortir le tableau-->
+					{foreach from=$listeRestaurant key=key1 item=item1}
+						<tr>
+							{foreach from=$listeRestaurant.$key1 key=key2 item=item2}
+								<td id="dateResultat">{$key2}</td>
+								<!--RDV-->
+								<td>
+									<ul>
+									{foreach from=$listeRestaurant.$key1.$key2 item=res}
+											<li>{$res.nom}</li>
+									{/foreach}
+									<ul>
+								</td>
+								<!--Reprogrammé-->
+								<td>
+									<ul>
+									{foreach from=$listeRestaurant.$key1.$key2 item=res}
+											{if $res.statut==2}
+											<li>{$res.nom}</li>
+											{/if}
+									{/foreach}
+									<ul>
+								</td>
+								<!--Non rencontré-->
+								<td>
+									<ul>
+									{foreach from=$listeRestaurant.$key1.$key2 item=res}
+											{if $res.statut==3}
+											<li>{$res.nom}</li>
+											{/if}
+									{/foreach}
+									<ul>
+								</td>
+								<!--En attente de réponse-->
+								<td>
+									<ul>
+									{foreach from=$listeRestaurant.$key1.$key2 item=res}
+											{if $res.statut==5}
+											<li>{$res.nom}</li>
+											{/if}
+									{/foreach}
+									<ul>
+								</td>
+							{/foreach}
+						</tr>
+					{/foreach}
+
+					</table>
+
+				</section>
+
+				<section id="resultatBlocHautDroite">
+				<h3> Liste des partenaires signés à date : </h3>
+					<section id="listeSigneResultat">
+					<ul>
+						{$cpt1=0}
+						{$cpt2=0}
+						{foreach from=$listeStatutRestaurant item=restaurant}
+							{if $restaurant.statut==1}
+							<li>{$restaurant.nom} ({$restaurant.type})</li>
+							{$cpt1=$cpt1+1}
+							{elseif $restaurant.statut==4}
+							{$cpt2=$cpt2+1}
+							{/if}
+						{/foreach}
+					</ul>
+					</section>
+
+					<h3> Recapitulatif signatures et refus</h3>
+					<table>
+						<tr>
+							<th>Nombre de partenaires signés </th>
+							<td>{$cpt1}</td>
+						</tr>
+						<tr>
+							<th>Nombre de refus définitif</th>
+							<td>{$cpt2}</td>
+						</tr>
+					</table>
+					<h3> Plus de détails </h3>
+					<form method="post" action="listeRefus.php" id="formRefus">
+						<p> Liste des refus : </p>
+						<input type="hidden" name="edition" value="{$edition}" />
+						<input type="hidden" name="typePartenaire" value="Restaurant" />
+						<input type="submit" value="Voir les refus"/>
+					</form>
+					<!--
+					<form action="affichageDuréePlusLongue.php">
+					</form>
+					-->
+				</section>
+
+				<section id="resultatModificationBlocBas">
+				<h3> Modification des entrées </h3>
+				<form method="post" action="modificationStatutPartenaire.php" id="formModification" >
+					<p> Modification statut partenaire : <p>
+					<select name="idPartenaire">
+						{foreach from=$listeStatutRestaurant item=restaurant}
+							<option value="{$restaurant.id}"/> {$restaurant.nom} </option>
+						{/foreach}
+					</select>
+					<select name="nouveauStatut">
+						<option value="signe"> Signé </option>
+						<option value="reprogramme"> Reprogrammé </option>
+						<option value="nonRencontre"> Non rencontré </option>
+						<option value="refus"> Refus définitif </option>
+					</select>
+					<input type="hidden" name="typePartenaire" value="Restaurant" />
+					<input type="hidden" name="edition" value="{$edition}" />
+					<input type="submit" value="Changer statut"/>
+				</form>
+				<form method="post" action="modificationTypePartenaire.php" id="formModification" >
+					<p> Modification type partenaire : <p>
+					<select name="idPartenaire">
+						{foreach from=$listeStatutRestaurant item=restaurant}
+							<option value="{$restaurant.id}"/> {$restaurant.nom} </option>
+						{/foreach}
+					</select>
+					<select name="nouveauType">
+						<option value="1"> Restaurant </option>
+						<option value="2"> Hôtel </option>
+						<option value="3"> Caviste </option>
+						<option value="4"> Beauté / Spa </option>
+						<option value="5"> Loisirs </option>
+						<option value="0"> Autre </option>
+					</select>
+					<input type="hidden" name="typePartenaire" value="Restaurant" />
+					<input type="hidden" name="edition" value="{$edition}" />
+					<input type="submit" value="Changer statut"/>
+				</form>
+
+				<!--
+				<br>
+				<form method="post" action="modificationDateRdv.php" id="formModification" >
+					<p> A quelle date est le rendez vous que vous souhaitez reprogrammé : <p>
+					<select name="dateConsultee">
+					{foreach from=$listeRestaurant key=key1 item=item1}
+							{foreach from=$listeRestaurant.$key1 key=key2 item=item2}
+							<option value="{$key2}">{$key2}</option>
+							{/foreach}
+					{/foreach}
+					</select>
+					<input type="hidden" name="typePartenaire" value="Restaurant" />
+					<input type="hidden" name="edition" value="{$edition}" />
+					<input type="submit" value="Afficher rendez-vous"/>
+				</form>
+				-->
+				</section>
+			</section>
+			<br>
+
+			<section id="PointDeVente">
+				<section id="resultatBlocGauche">
+				<h2> Distributeurs </h2>
+
+				<p> Affichage des rendez-vous des prochains jours </p>
+
+					<table id="affCalendrierResultat">
+					<tr>
+						<th id="dateResultat"> Date du rendez-vous </th>
+						<th> Rendez-vous de la journée </th>
+						<th> Reprogrammé </th>
+						<th> Non rencontré </th>
+						<th> En attente de réponse </th>
+					</tr>
+
+					<tr>
+					<!-- La suite de foreach permet de sortir le tableau-->
+					{foreach from=$listePointDeVente key=key1 item=item1}
+						<tr>
+							{foreach from=$listePointDeVente.$key1 key=key2 item=item2}
+								<td id="dateResultat">{$key2}</td>
+								<!--RDV-->
+								<td>
+									<ul>
+									{foreach from=$listePointDeVente.$key1.$key2 item=res}
+											<li>{$res.nom}</li>
+									{/foreach}
+									<ul>
+								</td>
+								<!--Reprogrammé-->
+								<td>
+									<ul>
+									{foreach from=$listePointDeVente.$key1.$key2 item=res}
+											{if $res.statut==2}
+											<li>{$res.nom}</li>
+											{/if}
+									{/foreach}
+									<ul>
+								</td>
+								<!--Non rencontré-->
+								<td>
+									<ul>
+									{foreach from=$listePointDeVente.$key1.$key2 item=res}
+											{if $res.statut==3}
+											<li>{$res.nom}</li>
+											{/if}
+									{/foreach}
+									<ul>
+								</td>
+								<!--En attente de réponse-->
+								<td>
+									<ul>
+									{foreach from=$listePointDeVente.$key1.$key2 item=res}
+											{if $res.statut==5}
+											<li>{$res.nom}</li>
+											{/if}
+									{/foreach}
+									<ul>
+								</td>
+							{/foreach}
+						</tr>
+					{/foreach}
+
+					</table>
+
+				</section>
+
+				<section id="resultatBlocHautDroite">
+				<h3> Liste des distributeurs signés à date : </h3>
+					<section id="listeSigneResultat">
+					<ul>
+						{$cpt1=0}
+						{$cpt2=0}
+						{foreach from=$listeStatutPointDeVente item=restaurant}
+							{if $restaurant.statut==1}
+							<li>{$restaurant.nom} ({$restaurant.type})</li>
+							{$cpt1=$cpt1+1}
+							{elseif $restaurant.statut==4}
+							{$cpt2=$cpt2+1}
+							{/if}
+						{/foreach}
+					</ul>
+					</section>
+
+					<h3> Recapitulatif signatures et refus</h3>
+					<table>
+						<tr>
+							<th>Nombre de distributeurs signés </th>
+							<td>{$cpt1}</td>
+						</tr>
+						<tr>
+							<th>Nombre de refus définitif</th>
+							<td>{$cpt2}</td>
+						</tr>
+					</table>
+					<h3> Plus de détails </h3>
+					<form method="post" action="listeRefus.php" id="formRefus">
+						<p> Liste des refus : </p>
+						<input type="hidden" name="edition" value="{$edition}" />
+						<input type="hidden" name="typePartenaire" value="PointDeVente" />
+						<input type="submit" value="Voir les refus"/>
+					</form>
+					<!--
+					<form action="affichageDuréePlusLongue.php">
+					</form>
+					-->
+				</section>
+
+				<section id="resultatModificationBlocBas">
+				<h3> Modification des entrées </h3>
+				<form method="post" action="modificationStatutPartenaire.php" id="formModification" >
+					<p> Modification statut distributeur : <p>
+					<select name="idPartenaire">
+						{foreach from=$listeStatutPointDeVente item=restaurant}
+							<option value="{$restaurant.id}"/> {$restaurant.nom} </option>
+						{/foreach}
+					</select>
+					<select name="nouveauStatut">
+						<option value="signe"> Signé </option>
+						<option value="reprogramme"> Reprogrammé </option>
+						<option value="nonRencontre"> Non rencontré </option>
+						<option value="refus"> Refus définitif </option>
+					</select>
+					<input type="hidden" name="typePartenaire" value="PointDeVente" />
+					<input type="hidden" name="edition" value="{$edition}" />
+					<input type="submit" value="Changer statut"/>
+				</form>
+
+				<form method="post" action="modificationTypePartenaire.php" id="formModification" >
+					<p> Modification type distributeur : <p>
+					<select name="idPartenaire">
+						{foreach from=$listeStatutPointDeVente item=restaurant}
+							<option value="{$restaurant.id}"/> {$restaurant.nom} </option>
+						{/foreach}
+					</select>
+					<select name="nouveauType">
+						<option value="1"> Comité d'entreprise </option>
+						<option value="2"> Point de vente </option>
+						<option value="0"> Autre </option>
+					</select>
+					<input type="hidden" name="typePartenaire" value="PointDeVente" />
+					<input type="hidden" name="edition" value="{$edition}" />
+					<input type="submit" value="Changer statut"/>
+				</form>
+				<!--
+				<br>
+				<form method="post" action="modificationDateRdv.php" id="formModification" >
+					<p> A quelle date est le rendez vous que vous souhaitez reprogrammé : <p>
+					<select name="dateConsultee">
+					{foreach from=$listeRestaurant key=key1 item=item1}
+							{foreach from=$listeRestaurant.$key1 key=key2 item=item2}
+							<option value="{$key2}">{$key2}</option>
+							{/foreach}
+					{/foreach}
+					</select>
+					<input type="hidden" name="typePartenaire" value="PointDeVente" />
+					<input type="hidden" name="edition" value="{$edition}" />
+					<input type="submit" value="Afficher rendez-vous"/>
+				</form>
+				-->
+				</section>
+			</section>
+			<br>
+
+
+			<section id="Publicite">
+				<section id="resultatBlocGauche">
+				<h2> Publicite </h2>
+
+				<p> Affichage des rendez-vous des prochains jours </p>
+
+					<table id="affCalendrierResultat">
+					<tr>
+						<th id="dateResultat"> Date du rendez-vous </th>
+						<th> Rendez-vous de la journée </th>
+						<th> Reprogrammé </th>
+						<th> Non rencontré </th>
+						<th> En attente de réponse </th>
+					</tr>
+
+					<tr>
+					<!-- La suite de foreach permet de sortir le tableau-->
+					{foreach from=$listePublicite key=key1 item=item1}
+						<tr>
+							{foreach from=$listePublicite.$key1 key=key2 item=item2}
+								<td id="dateResultat">{$key2}</td>
+								<!--RDV-->
+								<td>
+									<ul>
+									{foreach from=$listePublicite.$key1.$key2 item=res}
+											<li>{$res.nom}</li>
+									{/foreach}
+									<ul>
+								</td>
+								<!--Reprogrammé-->
+								<td>
+									<ul>
+									{foreach from=$listePublicite.$key1.$key2 item=res}
+											{if $res.statut==2}
+											<li>{$res.nom}</li>
+											{/if}
+									{/foreach}
+									<ul>
+								</td>
+								<!--Non rencontré-->
+								<td>
+									<ul>
+									{foreach from=$listePublicite.$key1.$key2 item=res}
+											{if $res.statut==3}
+											<li>{$res.nom}</li>
+											{/if}
+									{/foreach}
+									<ul>
+								</td>
+								<!--En attente de réponse-->
+								<td>
+									<ul>
+									{foreach from=$listePublicite.$key1.$key2 item=res}
+											{if $res.statut==5}
+											<li>{$res.nom}</li>
+											{/if}
+									{/foreach}
+									<ul>
+								</td>
+							{/foreach}
+						</tr>
+					{/foreach}
+
+					</table>
+
+				</section>
+
+				<section id="resultatBlocHautDroite">
+				<h3> Liste des organismes publicitaire signés à date : </h3>
+					<section id="listeSigneResultat">
+					<ul>
+						{$cpt1=0}
+						{$cpt2=0}
+						{foreach from=$listeStatutPublicite item=restaurant}
+							{if $restaurant.statut==1}
+							<li>{$restaurant.nom}</li>
+							{$cpt1=$cpt1+1}
+							{elseif $restaurant.statut==4}
+							{$cpt2=$cpt2+1}
+							{/if}
+						{/foreach}
+					</ul>
+					</section>
+
+					<h3> Recapitulatif signatures et refus</h3>
+					<table>
+						<tr>
+							<th>Nombre d'organismes publicitaires signés </th>
+							<td>{$cpt1}</td>
+						</tr>
+						<tr>
+							<th>Nombre de refus définitif</th>
+							<td>{$cpt2}</td>
+						</tr>
+					</table>
+					<h3> Plus de détails </h3>
+					<form method="post" action="listeRefus.php" id="formRefus">
+						<p> Liste des refus : </p>
+						<input type="hidden" name="edition" value="{$edition}" />
+						<input type="hidden" name="typePartenaire" value="Publicite" />
+						<input type="submit" value="Voir les refus"/>
+					</form>
+					<!--
+					<form action="affichageDuréePlusLongue.php">
+					</form>
+					-->
+				</section>
+
+				<section id="resultatModificationBlocBas">
+				<h3> Modification des entrées </h3>
+				<form method="post" action="modificationStatutPartenaire.php" id="formModification" >
+					<p> Modification statut organisme publicitaire : <p>
+					<select name="idPartenaire">
+						{foreach from=$listeStatutPublicite item=restaurant}
+							<option value="{$restaurant.id}"/> {$restaurant.nom} </option>
+						{/foreach}
+					</select>
+					<select name="nouveauStatut">
+						<option value="signe"> Signé </option>
+						<option value="reprogramme"> Reprogrammé </option>
+						<option value="nonRencontre"> Non rencontré </option>
+						<option value="refus"> Refus définitif </option>
+					</select>
+					<input type="hidden" name="typePartenaire" value="Publicite" />
+					<input type="hidden" name="edition" value="{$edition}" />
+					<input type="submit" value="Changer statut"/>
+				</form>
+				<!--
+				<br>
+				<form method="post" action="modificationDateRdv.php" id="formModification" >
+					<p> A quelle date est le rendez vous que vous souhaitez reprogrammé : <p>
+					<select name="dateConsultee">
+					{foreach from=$listeRestaurant key=key1 item=item1}
+							{foreach from=$listeRestaurant.$key1 key=key2 item=item2}
+							<option value="{$key2}">{$key2}</option>
+							{/foreach}
+					{/foreach}
+					</select>
+					<input type="hidden" name="typePartenaire" value="Publicite" />
+					<input type="hidden" name="edition" value="{$edition}" />
+					<input type="submit" value="Afficher rendez-vous"/>
+				</form>
+				-->
+				</section>
+			</section>
+			<br>
+		</body>
+
+</html>

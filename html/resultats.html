@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<html>
+
+		<head>
+				<meta charset="utf-8" />
+				<title> Gabrice Editions : Resultats </title>
+				<link rel="stylesheet" href="../css/style.css" />
+		</head>
+
+
+		<body>
+				<header>
+					<div id="logo_header">
+						<img src="../img/logo/logo_gabrice.jpg" />	
+					</div>
+				</header>
+
+				<nav>
+					{include file='../html/nav.html'}		
+				</nav>
+
+				<h1 id="titre_accueil_centre"> Résultats </h1>
+				
+				<section id="bloc_middle">
+				<h2> Edition à consulter </h2>
+					<form method="post" action="affichage_resultats.php">
+						<p>Edition : 
+							<select name="choixEdition">
+							{foreach from=$edition item=listeEdition}
+								<option> {$listeEdition.nom} </option>
+							{/foreach}
+							</select>
+						</p>
+						<input type="submit" value="Consulter les résultats" id="validation_bouton"/>
+					</form> 
+				</section>
+
+		</body>
+
+</html>
+

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html>
+
+		<head>
+				<meta charset="utf-8" />
+				<title> Gabrice Editions : Resultats </title>
+				<link rel="stylesheet" href="style.css" />
+		</head>
+
+
+		<body>
+				<header>
+					<div id="logo_header">
+						<img src="img/logo/logo_gabrice.jpg" />	
+					</div>
+				</header>
+
+				<nav>
+					{include file='tpl/html/nav.html'}		
+				</nav>
+
+				<h1 id="titre_accueil_centre"> Liste détaillée des points de vente </h1>
+				
+				<section id="bloc_middle">
+				<table>
+				<tr> 
+					<th>Nom de l'entreprise</th> 
+					<th>Rendez-vous prévu ?</th> 
+					<th>Contrat signé ?</th> 
+				</tr>
+				{foreach from=$donnee_pdv item=pdv}
+				 <tr> 
+				 	<td>{$pdv.nom}</td>
+					 <td> {if $pdv.rdv==1} Oui {else} Non {/if} </td>
+					 <td> {if $pdv.sgn==1} Oui {else} Non {/if} </td>
+				 </tr>
+				{/foreach}
+				<table>
+				<br><a href="javascript:history.back()">Retourner à la page précédente</a>
+				</section>
+		</body>
+
+</html>

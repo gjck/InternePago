@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+
+<html>
+
+		<head>
+				<meta charset="utf-8" />
+				<title> Gabrice Editions : Etape 2 </title>
+				<link rel="stylesheet" href="../css/style.css" />
+		</head>
+
+
+		<body>
+				<header>
+					<div id="logo_header">
+						<img src="../img/logo/logo_gabrice.jpg" />
+					</div>
+				</header>
+
+				<nav>
+					{include file='../html/nav.html'}
+				</nav>
+
+				<h1 id="titre_accueil_centre"> Recapitulatif</h1>
+
+				<section id="bloc_middle">
+					<form method="post" action="journalier_p11.php">
+						<h2> Récapitulatif des entrées d'aujourd'hui </h2>
+						<p> Vous avez fini le questionnaire, voici vos entrées quotidiennes. </p>
+						<p> Vous pourrez les modifier après avoir cliquer sur "Finaliser le questionnaire". </p>
+
+						<h3> Nouveaux contacts partenaire</h3>
+						<table id="jour_p1">
+							<tr>
+								<th> Partenaire </th>
+								<th> Type </th>
+								<th> Statut </th>
+
+							</tr>
+						{$i=0}
+						{foreach from=$recapRestaurant item=res}
+							<tr>
+								<td> {$res.nom} </td>
+								<td> {$res.type} </td>
+								<td> {$res.statut} </td>
+				 			</tr>
+						{/foreach}
+						</table>
+
+						<h3> Nouveaux rendez-vous partenaire</h3>
+						<table id="jour_p1">
+							<tr>
+								<th> Partenaire </th>
+								<th> Date rendez-vous </th>
+							</tr>
+						{$i=0}
+						{foreach from=$recapRdvRestaurant item=rdvRes}
+							<tr>
+								<td> {$rdvRes.nom} </td>
+								<td> {$rdvRes.rdv} </td>
+				 			</tr>
+						{/foreach}
+						</table>
+
+						<h3> Nouveaux contacts disitributeurs</h3>
+						<table id="jour_p1">
+							<tr>
+								<th> Distributeur </th>
+								<th> Type </th>
+								<th> Statut </th>
+							</tr>
+						{$i=0}
+						{foreach from=$recapPointDeVente item=pdv}
+							<tr>
+								<td> {$pdv.nom} </td>
+								<td> {$pdv.type} </td>
+								<td> {$pdv.statut} </td>
+				 			</tr>
+						{/foreach}
+						</table>
+
+						<h3> Nouveaux rendez-vous points de vente</h3>
+						<table id="jour_p1">
+							<tr>
+								<th> Point de vente </th>
+								<th> Date rendez-vous </th>
+							</tr>
+						{$i=0}
+						{foreach from=$recapRdvPointDeVente item=rdvPdv}
+							<tr>
+								<td> {$rdvPdv.nom} </td>
+								<td> {$rdvPdv.rdv} </td>
+				 			</tr>
+						{/foreach}
+						</table>
+
+						<h3> Nouveaux contacts publicite</h3>
+						<table id="jour_p1">
+							<tr>
+								<th> Organisme publicitaire </th>
+								<th> Statut </th>
+							</tr>
+						{$i=0}
+						{foreach from=$recapPublicite item=pub}
+							<tr>
+								<td> {$pub.nom} </td>
+								<td> {$pub.statut} </td>
+				 			</tr>
+						{/foreach}
+						</table>
+
+						<h3> Nouveaux rendez-vous publicite</h3>
+						<table id="jour_p1">
+							<tr>
+								<th> Organisme publicitaire </th>
+								<th> Date rendez-vous </th>
+							</tr>
+						{$i=0}
+						{foreach from=$recapRdvPublicite item=rdvPub}
+							<tr>
+								<td> {$rdvPub.nom} </td>
+								<td> {$rdvPub.rdv} </td>
+				 			</tr>
+						{/foreach}
+						</table>
+
+						<p>
+						<div>
+						<input type="submit" value="Finaliser rapport" id="validation_bouton"/>
+						</div>
+						</p>
+
+					</form>
+				</section>
+		</body>
+
+</html>

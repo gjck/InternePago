@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html>
+
+		<head>
+				<meta charset="utf-8" />
+				<title> Gabrice Editions : Etape 2 </title>
+				<link rel="stylesheet" href="../css/style.css" />
+		</head>
+
+
+		<body>
+				<header>
+					<div id="logo_header">
+						<img src="../img/logo/logo_gabrice.jpg" />
+					</div>
+				</header>
+
+				<nav>
+					{include file='../html/nav.html'}
+				</nav>
+
+				<h1 id="titre_accueil_centre"> Etape 2 : Les comités d'entreprises </h1>
+
+				<section id="bloc_middle">
+					<form method="post" action="journalier_p4.php">
+						<p> Vos rendez-vous quotidiens avec des comités d'entreprises étaient les suivants, merci de mettre leur statut à jour : </p>
+						<table>
+							<tr>
+								<th> Nom de l'entreprise </th>
+								<th> Non rencontré </th>
+								<th> Signé </th>
+								<th> Refus </th>
+								<th> Reprogrammé </th>
+								<th> En attente de réponse </th>
+							</tr>
+							{$i=0}
+							{foreach from=$listeComiteEntreprise item=ce}
+							<tr>
+								<td> {$ce.nom}  </td>
+				 				<td> <input type="radio" name="statut[{$ce.id}]" value="nonRencontre" checked/></td>
+				 				<td> <input type="radio" name="statut[{$ce.id}]" value="signe" id="signe"/></td>
+				 				<td> <input type="radio" name="statut[{$ce.id}]" value="refus" id="refus"/></td>
+				 				<td> <input type="radio" name="statut[{$ce.id}]" value="reprogramme" id="reprogramme"/></td>
+								<td> <input type="radio" name="statut[{$ce.id}]" value="attenteReponse" id="attenteReponse"/></td>
+				 				<input type="hidden" name="id[{$i++}]" value="{$ce.id}"/>
+				 			</tr>
+							{/foreach}
+						</table>
+						<p> Avez-vous rencontré d'autres comités d'entreprises aujourd'hui, si oui, combien?
+						<float id="question"><input type="number" min=0 max=50 name="nb_ce"/></p>
+						<p> Combien de rendez-vous avec des comités d'entreprise avez-vous prévus cette semaine?
+						<float id="question"><input type="number" min=0 max=50 name="nb_rdv_ce"/></p>
+						<input type="hidden" name="max" value="{$i}"/>
+						<p><input type="submit" value="Passer à l'étape suivante" id="validation_bouton"/></float></p>
+					</form>
+				</section>
+		</body>
+
+</html>
